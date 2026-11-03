@@ -1,0 +1,10 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>메모 — 도트 라이프</title><link rel="stylesheet" href="widget.css">
+<style>textarea{flex:1;width:100%;resize:none;border:2px dashed var(--l);border-radius:6px;background:repeating-linear-gradient(var(--w) 0 23px,var(--c) 23px 24px);font:15px/24px "Galmuri";color:var(--k);padding:0 8px;outline:none}</style>
+</head><body><div class="panel"><div class="title"><img src="../icons/letter.png" alt=""><span id="tt">메모장</span><span class="sub" id="st" style="margin-left:auto"></span></div>
+<textarea id="t" placeholder="떠오른 걸 바로 적어요 (이 기기에만 저장)"></textarea></div>
+<script>
+const q=new URLSearchParams(location.search),key="dl-memo-"+(q.get("id")||"main");tt.textContent=q.get("t")||"메모장";
+try{t.value=localStorage.getItem(key)||""}catch(e){}
+let tm;t.oninput=()=>{clearTimeout(tm);st.textContent="…";tm=setTimeout(()=>{try{localStorage.setItem(key,t.value);st.textContent="저장됨"}catch(e){st.textContent="저장 안 됨"}},400)};
+</script></body></html>

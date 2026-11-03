@@ -1,0 +1,13 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>저축 계산기 — 도트 라이프</title><link rel="stylesheet" href="widget.css">
+<style>.f{display:grid;grid-template-columns:auto 1fr;gap:6px 8px;align-items:center;font-size:13px}input{font:14px "Galmuri";border:2px solid var(--k);border-radius:5px;padding:3px 6px;background:var(--w);color:var(--k);width:100%}
+.res{font:16px/1.5 "GalmuriB";background:var(--c);border:2px dashed var(--S);border-radius:6px;padding:6px 8px}</style>
+</head><body><div class="panel"><div class="title"><img src="../icons/shell.png" alt="">저축 계산기</div>
+<div class="f">목표 금액(만원)<input id="g" type="number" value="300">지금 모은 돈(만원)<input id="h" type="number" value="0">매달 저축(만원)<input id="m" type="number" value="30"></div>
+<div class="res" id="r"></div><div class="bar" id="br"></div></div>
+<script>
+function calc(){const G=+g.value,H=+h.value,M=+m.value,left=Math.max(G-H,0),k=M>0?Math.ceil(left/M):Infinity,d=new Date();d.setMonth(d.getMonth()+(isFinite(k)?k:0));
+ r.innerHTML=left<=0?"벌써 목표 달성! 🎉":isFinite(k)?`${k}개월 뒤 · ${d.getFullYear()}년 ${d.getMonth()+1}월 달성<br><span style="font:12px Galmuri">남은 돈 ${left.toLocaleString()}만원 · 하루 약 ${Math.round(M*10000/30).toLocaleString()}원씩</span>`:"매달 저축액을 적어 주세요";
+ const p=G>0?Math.min(H/G,1):0;br.innerHTML=Array.from({length:20},(_,i)=>`<i class="${i<Math.round(p*20)?"f":""}"></i>`).join("")}
+[g,h,m].forEach(x=>x.oninput=calc);calc();
+</script></body></html>

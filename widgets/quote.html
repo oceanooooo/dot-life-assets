@@ -1,0 +1,10 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>오늘의 한 마디 — 도트 라이프</title><link rel="stylesheet" href="widget.css">
+<style>.bub{position:relative;flex:1;background:var(--c);border:3px solid var(--k);border-radius:10px;padding:10px 12px;font:15px/1.6 "Galmuri";display:flex;align-items:center}
+.bub::after{content:"";position:absolute;left:24px;bottom:-12px;border:6px solid transparent;border-top-color:var(--k)}.who{display:flex;align-items:center;gap:8px;font:13px "GalmuriB"}.who img{width:48px;height:48px}</style>
+</head><body><div class="panel"><div class="bub" id="b"></div><div class="who"><img src="../anim/sora.gif" alt="">소라의 오늘 한 마디 <span class="sub" style="margin-left:auto" id="d"></span></div></div>
+<script>
+/* 소라가 하는 말 (자체 작성). 날짜마다 하나씩 */
+const L=["오늘 한 줄이면 충분해. 완벽한 하루보다 기록된 하루!","물 한 잔 마셨어? 나는 바다에 살아서 늘 촉촉해.","천천히 가도 괜찮아. 소라게도 한 걸음씩 가거든.","어제보다 조금만 더. 그거면 충분히 멋져.","오늘의 작은 즐거움 하나를 꼭 적어 줘.","쉬는 것도 일정이야. 오늘은 쉬어도 돼.","하고 싶은 걸 하나 골라서 10분만 해 보자.","몸이 무거운 날엔 스트레칭 5분부터!","좋아하는 노래 한 곡 듣고 시작해 볼까?","쓴 돈도 기록하면 내 편이 돼.","다 못 해도 괜찮아. 내일의 너에게 넘겨 줘.","오늘 본 것 중에 제일 예뻤던 건 뭐야?","글 한 문단이라도 쓰면 작가야!","창문 열고 바람 한 번 들이마셔 봐.","오늘도 집(껍데기) 잘 챙겼지? 너의 기록도!","잘한 일 하나, 스스로 칭찬해 줘.","힘든 날엔 '흐림'을 골라도 돼. 그것도 소중한 기록이야.","목표에 할 일 하나를 연결해 봐. 막대가 차오를 거야.","밥은 맛있게 먹었어? 사진 한 장 남겨 볼까?","오늘의 나에게 수고했다고 말해 주기!"];
+const n=new Date(),i=Math.floor((n-new Date(n.getFullYear(),0,0))/864e5)%L.length;b.textContent=L[i];d.textContent=`${n.getMonth()+1}/${n.getDate()}`;
+</script></body></html>

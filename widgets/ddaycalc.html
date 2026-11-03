@@ -1,0 +1,22 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>날짜 계산기 — 도트 라이프</title><link rel="stylesheet" href="widget.css">
+<style>.tabs{display:flex;gap:6px}.f{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:13px}
+input,select{font:14px "Galmuri";border:2px solid var(--k);border-radius:5px;padding:3px 6px;background:var(--w);color:var(--k);width:auto}
+.res{font:20px "GalmuriB";padding:6px 8px;background:var(--c);border:2px dashed var(--S);border-radius:6px}.ms{font-size:12px;columns:2;color:var(--K)}</style>
+</head><body><div class="panel"><div class="title"><img src="../icons/calendar.png" alt="">날짜 계산기</div>
+<div class="tabs"><button class="btn on" data-m="add">N일 후·전</button><button class="btn" data-m="between">두 날짜 사이</button><button class="btn" data-m="ms">기념일</button></div>
+<div class="f" id="f"></div><div class="res" id="r"></div><div class="ms hide-s" id="ms"></div></div>
+<script>
+const W="일월화수목금토",today=new Date().toISOString().slice(0,10);let mode="add";
+const fmt=d=>`${d.getFullYear()}.${d.getMonth()+1}.${d.getDate()} (${W[d.getDay()]})`,D=s=>new Date(s+"T00:00:00");
+function ui(){ms.innerHTML="";if(mode==="add")f.innerHTML=`<input type="date" id="a" value="${today}"> 부터 <input type="number" id="n" value="100" style="width:80px"> 일 <select id="s"><option value="1">후</option><option value="-1">전</option></select>`;
+ if(mode==="between")f.innerHTML=`<input type="date" id="a" value="${today}"> ~ <input type="date" id="b" value="${new Date().getFullYear()}-12-25">`;
+ if(mode==="ms")f.innerHTML=`시작일 <input type="date" id="a" value="${today}"> <label><input type="checkbox" id="z"> 시작일을 0일째로</label>`;
+ f.querySelectorAll("input,select").forEach(x=>x.oninput=calc);calc()}
+function calc(){const a=D(document.getElementById("a").value);
+ if(mode==="add"){const n=+document.getElementById("n").value*+document.getElementById("s").value,d=new Date(a);d.setDate(d.getDate()+n);r.textContent=fmt(d)}
+ if(mode==="between"){const b=D(document.getElementById("b").value),n=Math.round((b-a)/864e5);r.textContent=`${Math.abs(n)}일 · 약 ${(Math.abs(n)/7).toFixed(1)}주 · ${n>=0?"뒤":"앞"}`}
+ if(mode==="ms"){const z=document.getElementById("z").checked?0:1,t=D(today),now=Math.round((t-a)/864e5)+z;r.textContent=`오늘은 D+${now}`;
+  let h="";for(const k of [50,100,200,300,365,500,1000]){const d=new Date(a);d.setDate(d.getDate()+k-z);const left=Math.round((d-t)/864e5);h+=`<div>${k===365?"1주년":k+"일"} · ${fmt(d)} ${left>=0?"(D-"+left+")":"✓"}</div>`}ms.innerHTML=h}}
+document.querySelector(".tabs").onclick=e=>{const m=e.target.dataset.m;if(!m)return;mode=m;document.querySelectorAll(".tabs .btn").forEach(b=>b.classList.toggle("on",b.dataset.m===m));ui()};ui();
+</script></body></html>

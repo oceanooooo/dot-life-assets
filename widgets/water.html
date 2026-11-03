@@ -1,0 +1,14 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>물 마시기 — 도트 라이프</title><link rel="stylesheet" href="widget.css">
+<style>.cups{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;flex:1}.cup{border:3px solid var(--k);border-radius:4px 4px 10px 10px;background:var(--w);cursor:pointer;position:relative;min-height:34px;overflow:hidden}
+.cup.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:70%;background:var(--b);border-top:3px solid var(--a)}</style>
+</head><body><div class="panel"><div class="title"><img src="../icons/water.png" alt="">물 마시기<span class="sub" id="n" style="margin-left:auto"></span></div>
+<div class="cups" id="c"></div><div class="sub" id="msg" style="text-align:center"></div></div>
+<script>
+/* 컵을 누르면 채워짐. 이 기기·브라우저에만 저장되고 날짜가 바뀌면 처음부터 */
+const goal=+new URLSearchParams(location.search).get("goal")||8,key="dl-water-"+new Date().toISOString().slice(0,10);
+let v=0;try{v=+localStorage.getItem(key)||0}catch(e){}
+function draw(){c.innerHTML=Array.from({length:goal},(_,i)=>`<div class="cup ${i<v?"on":""}" data-i="${i}"></div>`).join("");n.textContent=`${v} / ${goal}잔`;
+ msg.textContent=v>=goal?"오늘 목표 달성! 촉촉해 ✨":v>=goal/2?"절반 넘었어, 조금만 더!":"한 잔씩 채워 보자 💧";try{localStorage.setItem(key,v)}catch(e){}}
+c.onclick=e=>{const i=e.target.dataset.i;if(i===undefined)return;v=(+i<v&&+i===v-1)?v-1:+i+1;draw()};draw();
+</script></body></html>
