@@ -1,0 +1,30 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>오늘 — 도트 라이프</title><link rel="stylesheet" href="widget.css">
+<style>
+.sky{position:absolute;left:0;right:0;top:0;height:46%;z-index:0;transition:background 1s}
+.sky::after{content:"";position:absolute;left:0;right:0;bottom:0;height:8px;background:repeating-linear-gradient(90deg,var(--w) 0 8px,transparent 8px 16px);opacity:.5}
+.in{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;gap:6px}
+.top{display:flex;justify-content:space-between;align-items:flex-start}
+.sora{width:72px;height:72px}
+.time{color:var(--w);text-shadow:3px 3px 0 var(--k)}
+.date{font-family:"GalmuriB";font-size:16px;margin-top:auto}
+.prog{display:grid;grid-template-columns:54px 1fr 40px;gap:4px 8px;align-items:center;font-size:12px}
+</style></head><body><div class="panel"><div class="sky" id="sky"></div><div class="in">
+<div class="top"><div><div class="sub" id="hi" style="color:var(--w);text-shadow:2px 2px 0 var(--k)"></div><div class="big time" id="t">--:--</div></div>
+<img class="sora" src="../anim/sora.gif" alt="소라"></div>
+<div class="date" id="d"></div>
+<div class="prog hide-s" id="p"></div>
+</div></div>
+<script>
+const W="일월화수목금토";
+const sky=[[5,"linear-gradient(#c3a6e0,#f5b8b0)","좋은 아침! 물 한 잔 어때?"],[11,"linear-gradient(#3f8fb8,#7cc3dc)","오늘도 반짝이는 하루!"],[17,"linear-gradient(#8a68b8,#ef9a52)","노을이 예쁜 시간이야"],[20,"linear-gradient(#1c3a5e,#275d86)","오늘 하루 한 줄 남겨 볼까?"]];
+function bar(r){let h="";for(let i=0;i<10;i++)h+=`<i class="${i<Math.round(r*10)?"f":""}"></i>`;return `<div class="bar">${h}</div>`}
+function tick(){const n=new Date(),h=n.getHours();
+ t.textContent=String(h).padStart(2,"0")+":"+String(n.getMinutes()).padStart(2,"0");
+ d.textContent=`${n.getFullYear()}년 ${n.getMonth()+1}월 ${n.getDate()}일 ${W[n.getDay()]}요일`;
+ let s=sky[3];for(const x of sky)if(h>=x[0])s=x; if(h<5)s=sky[3]; document.getElementById("sky").style.background=s[1]; hi.textContent=s[2];
+ const y0=new Date(n.getFullYear(),0,1),y1=new Date(n.getFullYear()+1,0,1),m0=new Date(n.getFullYear(),n.getMonth(),1),m1=new Date(n.getFullYear(),n.getMonth()+1,1);
+ const ry=(n-y0)/(y1-y0),rm=(n-m0)/(m1-m0),rd=(h*60+n.getMinutes())/1440;
+ p.innerHTML=[["올해",ry],["이번 달",rm],["오늘",rd]].map(([k,r])=>`<span>${k}</span>${bar(r)}<span>${Math.floor(r*100)}%</span>`).join("");}
+tick();setInterval(tick,10000);
+</script></body></html>

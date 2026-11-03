@@ -1,0 +1,17 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>디데이 — 도트 라이프</title><link rel="stylesheet" href="widget.css">
+<style>.list{display:flex;flex-direction:column;gap:7px;overflow:auto}.list .row{padding:5px 8px;border:2px dashed var(--l);border-radius:6px}.list img{width:20px;height:20px}.when{font-size:12px;color:var(--K)}</style>
+</head><body><div class="panel"><div class="title"><img src="../icons/star.png" alt="">디데이</div><div class="list" id="l"></div>
+<div class="sub hide-s" style="margin-top:auto;font-size:11px">주소 뒤 ?d=이름|2026-12-25,생일|2000-05-03|매년 으로 바꿀 수 있어요</div></div>
+<script>
+const q=new URLSearchParams(location.search);
+const def="크리스마스|2026-12-25|매년,새해|2027-01-01|매년,도트 라이프 시작|2026-11-01";
+const W="일월화수목금토";
+const today=new Date();today.setHours(0,0,0,0);
+const items=(q.get("d")||def).split(",").map(s=>{const [n,dt,rep]=s.split("|");let d=new Date(dt+"T00:00:00");
+ if(rep==="매년"||rep==="y"){d.setFullYear(today.getFullYear());if(d<today)d.setFullYear(today.getFullYear()+1)}
+ const diff=Math.round((d-today)/864e5);return {n,d,diff}}).sort((a,b)=>(a.diff<0)-(b.diff<0)||Math.abs(a.diff)-Math.abs(b.diff));
+l.innerHTML=items.map(x=>{const cls=x.diff===0?"today":x.diff<0?"past":x.diff<=7?"soon":"";const txt=x.diff===0?"D-DAY":x.diff>0?"D-"+x.diff:"D+"+(1-x.diff);
+ const ic=x.diff===0?"sparkle":x.diff<0?"heart":"star";
+ return `<div class="row"><img src="../icons/${ic}.png" alt=""><div class="grow">${x.n}<div class="when">${x.d.getMonth()+1}월 ${x.d.getDate()}일 ${W[x.d.getDay()]}</div></div><span class="badge ${cls}">${txt}</span></div>`}).join("");
+</script></body></html>

@@ -367,9 +367,15 @@
    "file": "cards/diary.png",
    "url": "https://oceanooooo.github.io/dot-life-assets/cards/diary.png"
   },
+  "cards/calendar": {
+   "label": "캘린더",
+   "desc": "일정 · 디데이",
+   "file": "cards/calendar.png",
+   "url": "https://oceanooooo.github.io/dot-life-assets/cards/calendar.png"
+  },
   "cards/health": {
    "label": "건강",
-   "desc": "다이어트 · 운동 · 발레",
+   "desc": "다이어트 · 홈트 · 운동",
    "file": "cards/health.png",
    "url": "https://oceanooooo.github.io/dot-life-assets/cards/health.png"
   },
@@ -391,9 +397,15 @@
    "file": "cards/watch.png",
    "url": "https://oceanooooo.github.io/dot-life-assets/cards/watch.png"
   },
+  "cards/wallet": {
+   "label": "지갑",
+   "desc": "계좌 · 가계부 · 자산",
+   "file": "cards/wallet.png",
+   "url": "https://oceanooooo.github.io/dot-life-assets/cards/wallet.png"
+  },
   "cards/life": {
    "label": "생활",
-   "desc": "가계부 · 구독 · 위시 · 장소 · 할 일",
+   "desc": "할 일 · 위시 · 장소",
    "file": "cards/life.png",
    "url": "https://oceanooooo.github.io/dot-life-assets/cards/life.png"
   },
@@ -505,6 +517,12 @@
    "file": "covers/sky.png",
    "url": "https://oceanooooo.github.io/dot-life-assets/covers/sky.png"
   },
+  "covers/dusk": {
+   "label": "해 질 녘",
+   "desc": "라벤더·분홍빛으로 물든 저녁 하늘과 바다",
+   "file": "covers/dusk.png",
+   "url": "https://oceanooooo.github.io/dot-life-assets/covers/dusk.png"
+  },
   "banners/archive": {
    "label": "바닷속",
    "desc": "햇살 비치는 바닷속. 빛줄기, 산호, 물고기 떼, 보물상자",
@@ -516,6 +534,12 @@
    "desc": "라벤더→주황 노을과 반짝이는 바다, 불 켜진 마을 실루엣",
    "file": "banners/diary.png",
    "url": "https://oceanooooo.github.io/dot-life-assets/banners/diary.png"
+  },
+  "banners/dusk": {
+   "label": "해 질 녘",
+   "desc": "라벤더·분홍빛으로 물든 저녁 하늘과 바다",
+   "file": "banners/dusk.png",
+   "url": "https://oceanooooo.github.io/dot-life-assets/banners/dusk.png"
   },
   "banners/growth": {
    "label": "학교 옥상",
@@ -618,6 +642,12 @@
    "desc": "바다 반짝임·별 깜빡임",
    "file": "anim/cover_diary.gif",
    "url": "https://oceanooooo.github.io/dot-life-assets/anim/cover_diary.gif"
+  },
+  "anim/cover_dusk": {
+   "label": "움직이는 커버 dusk",
+   "desc": "바다 반짝임·별 깜빡임",
+   "file": "anim/cover_dusk.gif",
+   "url": "https://oceanooooo.github.io/dot-life-assets/anim/cover_dusk.gif"
   },
   "anim/cover_growth": {
    "label": "움직이는 커버 growth",

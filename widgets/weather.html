@@ -1,0 +1,20 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>날씨 — 도트 라이프</title><link rel="stylesheet" href="widget.css">
+<style>.now{display:flex;align-items:center;gap:12px}.now img{width:64px;height:64px}.days{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:auto}
+.days div{border:2px dashed var(--l);border-radius:6px;padding:4px;text-align:center;font-size:12px}.days img{width:28px;height:28px;display:block;margin:2px auto}</style>
+</head><body><div class="panel"><div class="title"><img src="../icons/mood_sunny.png" alt=""><span id="nm">날씨</span><span class="sub" style="margin-left:auto" id="up"></span></div>
+<div class="now"><img id="ni" src="../icons/mood_partly.png" alt=""><div><div class="big" id="tp">--°</div><div class="sub" id="ds">불러오는 중…</div></div></div>
+<div class="days hide-s" id="dy"></div></div>
+<script>
+/* 무료 날씨 API(Open-Meteo, 키 없음). ?lat=37.57&lon=126.98&name=서울 */
+const q=new URLSearchParams(location.search),lat=q.get("lat")||37.5665,lon=q.get("lon")||126.978;nm.textContent=(q.get("name")||"서울")+" 날씨";
+function ic(c){return c<=1?"mood_sunny":c<=2?"mood_partly":c<=48?"mood_cloudy":c>=95?"mood_storm":"mood_rain"}
+function tx(c){return c==0?"맑음":c<=2?"구름 조금":c==3?"흐림":c<=48?"안개":c<=67?"비":c<=77?"눈":c<=82?"소나기":c<=86?"눈 소나기":"천둥번개"}
+const W="일월화수목금토";
+fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FSeoul&forecast_days=4`)
+.then(r=>r.json()).then(j=>{const c=j.current;tp.textContent=Math.round(c.temperature_2m)+"°";ni.src=`../icons/${ic(c.weather_code)}.png`;
+ const d=j.daily;ds.textContent=`${tx(c.weather_code)} · 최고 ${Math.round(d.temperature_2m_max[0])}° 최저 ${Math.round(d.temperature_2m_min[0])}° · 비 ${d.precipitation_probability_max[0]}%`;
+ up.textContent=new Date().toTimeString().slice(0,5);
+ dy.innerHTML=[1,2,3].map(i=>{const dt=new Date(d.time[i]);return `<div>${W[dt.getDay()]}<img src="../icons/${ic(d.weather_code[i])}.png" alt="">${Math.round(d.temperature_2m_max[i])}° / ${Math.round(d.temperature_2m_min[i])}°</div>`}).join("")})
+.catch(()=>{ds.textContent="날씨를 불러오지 못했어요"});
+</script></body></html>

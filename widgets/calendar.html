@@ -1,0 +1,21 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>달력 — 도트 라이프</title><link rel="stylesheet" href="widget.css">
+<style>.hd{display:flex;align-items:center;gap:8px}.hd .title{flex:1}.nav{font:14px "GalmuriB";background:none;border:none;cursor:pointer;color:var(--k);padding:0 4px}
+.g{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;flex:1}.g div{display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:13px;min-height:20px}
+.g .w{font-family:"GalmuriB";font-size:12px;color:var(--K)}.g .su{color:var(--r)}.g .sa{color:var(--B)}.g .o{color:var(--l)}
+.g .h{color:var(--r)}.g .td{background:var(--y);border:2px solid var(--k);font-family:"GalmuriB";color:var(--k)}</style>
+</head><body><div class="panel"><div class="hd"><div class="title"><img src="../icons/calendar.png" alt=""><span id="ym"></span></div>
+<button class="nav" id="pv">◀</button><button class="nav" id="nx">▶</button></div><div class="g" id="g"></div></div>
+<script>
+/* 양력 공휴일만 표시 (설·추석 등 음력 공휴일은 해마다 달라 표시하지 않음) */
+const HOL={"1-1":"신정","3-1":"삼일절","5-5":"어린이날","6-6":"현충일","8-15":"광복절","10-3":"개천절","10-9":"한글날","12-25":"성탄절"};
+let cur=new Date();cur.setDate(1);
+function draw(){const y=cur.getFullYear(),m=cur.getMonth(),t=new Date();ym.textContent=`${y}년 ${m+1}월`;
+ let h="일월화수목금토".split("").map((d,i)=>`<div class="w ${i==0?"su":i==6?"sa":""}">${d}</div>`).join("");
+ const first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),prev=new Date(y,m,0).getDate();
+ for(let i=0;i<first;i++)h+=`<div class="o">${prev-first+1+i}</div>`;
+ for(let d=1;d<=days;d++){const wd=(first+d-1)%7,hol=HOL[(m+1)+"-"+d],td=y==t.getFullYear()&&m==t.getMonth()&&d==t.getDate();
+  h+=`<div class="${td?"td":""} ${hol?"h":wd==0?"su":wd==6?"sa":""}" title="${hol||""}">${d}</div>`}
+ const rest=(7-(first+days)%7)%7;for(let i=1;i<=rest;i++)h+=`<div class="o">${i}</div>`;g.innerHTML=h}
+pv.onclick=()=>{cur.setMonth(cur.getMonth()-1);draw()};nx.onclick=()=>{cur.setMonth(cur.getMonth()+1);draw()};draw();
+</script></body></html>

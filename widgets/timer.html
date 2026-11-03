@@ -1,0 +1,33 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>타이머 — 도트 라이프</title><link rel="stylesheet" href="widget.css">
+<style>.mid{display:flex;align-items:center;gap:14px}.phase{font-family:"GalmuriB";font-size:15px}.phase.rest{color:var(--G)}.phase.work{color:var(--r)}
+.ctl{display:flex;gap:6px;margin-top:auto;flex-wrap:wrap}.mid img{width:56px;height:56px}#seg{height:14px}</style>
+</head><body><div class="panel">
+<div class="title"><img id="ic" src="../icons/sparkle.png" alt=""><span id="tt">집중 타이머</span><span class="sub" id="rd" style="margin-left:auto"></span></div>
+<div class="mid"><img id="pic" src="../anim/sora_write.gif" alt=""><div><div class="phase" id="ph">준비</div><div class="big" id="clk">25:00</div></div></div>
+<div class="bar" id="seg"></div>
+<div class="ctl"><button class="btn on" id="go">▶ 시작</button><button class="btn" id="rs">↺ 처음</button><span class="chips" id="pre"></span></div>
+</div>
+<script>
+/* ?mode=focus&m=25&b=5  또는  ?mode=interval&work=40&rest=20&rounds=8  (&t=제목) */
+const q=new URLSearchParams(location.search),mode=q.get("mode")||"focus";
+let plan=[];
+if(mode==="interval"){const w=+q.get("work")||40,r=+q.get("rest")||20,n=+q.get("rounds")||8;
+ for(let i=1;i<=n;i++){plan.push({k:"work",s:w,l:`운동 ${i}/${n}`});if(i<n)plan.push({k:"rest",s:r,l:"휴식"})}
+ tt.textContent=q.get("t")||"홈트 인터벌";ic.src="../icons/workout.png";pic.src="../anim/sora_ballet.gif";}
+else{const m=+q.get("m")||25,b=+q.get("b")||5;plan=[{k:"work",s:m*60,l:"집중"},{k:"rest",s:b*60,l:"쉬는 시간"}];tt.textContent=q.get("t")||"집중 타이머";
+ pre.innerHTML=[15,25,50].map(v=>`<button class="btn" data-m="${v}">${v}분</button>`).join("");
+ pre.onclick=e=>{const v=e.target.dataset.m;if(!v)return;plan[0].s=v*60;reset()}}
+let i=0,left=plan[0].s,run=null,ctx=null;
+function beep(f=880,ms=180){try{ctx=ctx||new AudioContext();const o=ctx.createOscillator(),g=ctx.createGain();o.type="square";o.frequency.value=f;g.gain.value=.06;o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+ms/1000)}catch(e){}}
+function draw(){const p=plan[i];clk.textContent=String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");
+ ph.textContent=run?p.l:(left===p.s&&i===0?"준비":"멈춤 · "+p.l);ph.className="phase "+p.k;
+ rd.textContent=mode==="interval"?`총 ${Math.round(plan.reduce((a,x)=>a+x.s,0)/60)}분`:"";
+ const n=20,done=Math.round((1-left/p.s)*n);seg.innerHTML=Array.from({length:n},(_,j)=>`<i class="${j<done?"f":""}" style="${p.k==="rest"&&j<done?"background:var(--t)":""}"></i>`).join("")}
+function step(){if(left>0){left--;if(left<=3&&left>0)beep(660,80)}else{beep(988,250);setTimeout(()=>beep(1318,250),260);i++;
+ if(i>=plan.length){stop();i=0;left=plan[0].s;ph.textContent="완료! 수고했어 ✨";return}left=plan[i].s}draw()}
+function stop(){clearInterval(run);run=null;go.textContent="▶ 시작";go.classList.add("on")}
+function reset(){stop();i=0;left=plan[0].s;draw()}
+go.onclick=()=>{if(run){stop();draw()}else{beep(523,90);run=setInterval(step,1000);go.textContent="❚❚ 멈춤";go.classList.remove("on");draw()}};
+rs.onclick=reset;draw();
+</script></body></html>
